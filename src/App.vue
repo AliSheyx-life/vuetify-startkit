@@ -10,9 +10,25 @@
 
 <script>
 import MainLayout from "./layouts/MainLayout.vue";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   components: { MainLayout },
+  computed: {
+    ...mapGetters("ui", ["IS_COLLAPSED"]),
+  },
+  methods: {
+    ...mapActions("ui", ["GET_SIDEBAR_STATE"]),
+    async checkSidebarState() {
+      const data = await this.GET_SIDEBAR_STATE();
+      if (data === null) {
+        localStorage.setItem("sidebar-ui", JSON.stringify(false));
+      }
+    },
+  },
+  mounted() {
+    this.checkSidebarState();
+  },
 };
 </script>
 
