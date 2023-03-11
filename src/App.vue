@@ -1,11 +1,14 @@
 <template>
-  <MainLayout>
-    <router-view v-slot="{ Component }">
-      <transition name="scale-effect" mode="out-in">
-        <component :is="Component" />
-      </transition>
-    </router-view>
-  </MainLayout>
+  <div>
+    <MainLayout v-if="!hasLayout">
+      <router-view v-slot="{ Component }">
+        <transition name="scale-effect" mode="out-in">
+          <component :is="Component" />
+        </transition>
+      </router-view>
+    </MainLayout>
+    <router-view v-else />
+  </div>
 </template>
 
 <script>
@@ -16,6 +19,11 @@ export default {
   components: { MainLayout },
   computed: {
     ...mapGetters("ui", ["IS_COLLAPSED"]),
+    hasLayout() {
+      const items = ["login", "register"];
+      const currentRoute = this.$route.name;
+      return items.includes(currentRoute);
+    },
   },
   methods: {
     ...mapActions("ui", ["GET_SIDEBAR_STATE"]),
