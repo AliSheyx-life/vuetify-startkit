@@ -33,6 +33,10 @@ export default {
   flex-grow: 1;
 }
 
+.main-router-content {
+  background: #f1f1f1;
+}
+
 .main-router-content::-webkit-scrollbar {
   display: none;
 }
