@@ -1,24 +1,27 @@
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store'
+import { createApp } from "vue";
+import App from "./App.vue";
+import router from "./router";
+import store from "./store";
 
-import { createVuetify } from 'vuetify'
-import * as components from 'vuetify/components'
-import * as directives from 'vuetify/directives'
+import { createVuetify } from "vuetify";
+import * as components from "vuetify/components";
+import * as directives from "vuetify/directives";
+import Toast from "vue-toastification";
 
-import 'vuetify/styles'
-import './assets/styles/tailwind.css'
+import "vue-toastification/dist/index.css";
+import "vuetify/styles";
+import "./assets/styles/tailwind.css";
 
 const vuetify = createVuetify({
-    components,
-    directives,
-})
+  components,
+  directives,
+});
 
-const app = createApp(App)
+const app = createApp(App);
 
-app.use(router)
-app.use(store)
-app.use(vuetify)
+app.use(router);
+app.use(store);
+app.use(vuetify);
+app.use(Toast);
 
-app.mount('#app')
+app.mount("#app");

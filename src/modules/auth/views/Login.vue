@@ -33,11 +33,16 @@
 </template>
 
 <script>
+import http from "../../../axios.config";
+import { setToLocaleStorage } from "../../../utils/localStorage";
+import { useToast } from "vue-toastification";
+
 export default {
   data() {
     return {
       username: "",
       password: "",
+      toast: useToast(),
       rules: [
         (value) => {
           if (!value) {
@@ -50,7 +55,19 @@ export default {
   methods: {
     async login() {
       const data = await this.rules;
-      this.$router.push({ name: "home" });
+      try {
+        const res = await http.post("auth/login", {
+          username: this.username,
+          password: this.password,
+        });
+        if (res) {
+          setToLocaleStorage("access_token", res.data.access_token);
+        }
+        this.toast.success("You are welcome!");
+        this.$router.push({ name: "home" });
+      } catch (err) {
+        this.toast.error(err.response.data.message);
+      }
     },
   },
 };

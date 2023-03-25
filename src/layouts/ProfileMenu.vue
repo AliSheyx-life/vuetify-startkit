@@ -19,9 +19,11 @@
     <div class="user-info flex items-center">
       <div class="text-content text-right">
         <h4 class="user-name text-lg font-semibold text-gray-800 leading-3">
-          Evan You
+          {{userInfo.username}}
         </h4>
-        <p class="role text-xs font-semibold text-gray-500">Creator</p>
+        <p class="role text-xs font-semibold text-gray-500">
+          {{ userInfo.email }}
+        </p>
       </div>
       <div class="profile-pic ml-2">
         <v-avatar color="info">
@@ -37,6 +39,7 @@
 
 <script>
 import { mapActions, mapGetters } from "vuex";
+import { fetchUserInfo } from "../api/auth";
 
 export default {
   data() {
@@ -44,6 +47,7 @@ export default {
       profileImage:
         "https://cdn-media-1.freecodecamp.org/images/0*xkJgg-6HskYrQ3N7.jpeg",
       isCollapsed: false,
+      userInfo: {},
     };
   },
   computed: {
@@ -54,6 +58,11 @@ export default {
     toggleSidebar() {
       this.TOGGLE_SIDEBAR();
     },
+  },
+  async mounted() {
+    const res = await fetchUserInfo();
+    console.log(res);
+    this.userInfo = res;
   },
 };
 </script>
