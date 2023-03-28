@@ -17,10 +17,10 @@
           label="Password"
         ></v-text-field>
 
-        <v-btn type="submit" block class="mt-2">Sign In</v-btn>
+        <v-btn type="submit" block class="mt-2 bg-brand text-white">Sign In</v-btn>
       </v-form>
 
-      <p class="mt-3">
+      <p class="mt-3" v-if="false">
         Do'nt have account?
         <span
           class="text-brand font-semibold cursor-pointer"
