@@ -1,6 +1,6 @@
 <template>
   <div class="p-5">
-    <h2 class="text-xl font-semibold mb-4">Create new user:</h2>
+    <h2 class="text-xl font-semibold mb-4">Edit user:</h2>
     <v-form @submit.prevent="createUser">
       <!-- inputs -->
       <v-text-field
@@ -24,19 +24,19 @@
         label="Phone Number"
       />
       <!-- inputs -->
-      <v-text-field
+      <!-- <v-text-field
         class=""
         v-model="newUser.password"
         :rules="rules"
         label="Password"
-      />
+      /> -->
       <!-- inputs -->
-      <v-text-field
+      <!-- <v-text-field
         class=""
         v-model="newUser.confirm_password"
         :rules="rules"
         label="Confirm password"
-      />
+      /> -->
 
       <div class="flex gap-px text-white">
         <v-btn
@@ -46,7 +46,7 @@
         >
           Cancel
         </v-btn>
-        <v-btn type="submit" class="mt-2 w-1/2 bg-brand"> Create </v-btn>
+        <v-btn type="submit" class="mt-2 w-1/2 bg-brand"> Edit </v-btn>
       </div>
     </v-form>
   </div>
@@ -57,16 +57,16 @@ import { useToast } from "vue-toastification";
 import { mapActions } from "vuex";
 
 export default {
+  props: {
+    userInfo: {
+      type: [Object, null],
+      default: {},
+    },
+  },
   data() {
     return {
       toast: useToast(),
-      newUser: {
-        username: "",
-        email: "",
-        phone_number: "",
-        password: "",
-        confirm_password: "",
-      },
+      newUser: this.userInfo,
       rules: [
         (value) => {
           if (!value) {
@@ -77,26 +77,32 @@ export default {
     };
   },
   methods: {
-    ...mapActions("users", ["CREATE_USER"]),
+    ...mapActions("users", ["EDIT_USER"]),
 
     async createUser() {
       await this.rules;
       if (
         !this.newUser.username ||
         !this.newUser.email ||
-        !this.newUser.phone_number ||
-        !this.newUser.password ||
-        !this.newUser.confirm_password
+        !this.newUser.phone_number
+        // !this.newUser.password ||
+        // !this.newUser.confirm_password
       ) {
         return this.toast.error("Fill all fields");
       }
-      if (!(this.newUser.password === this.newUser.confirm_password)) {
-        return this.toast.error("Passwords do not match");
-      }
+      //   if (!(this.newUser.password === this.newUser.confirm_password)) {
+      //     return this.toast.error("Passwords do not match");
+      //   }
       try {
-        const res = await this.CREATE_USER(this.newUser);
-        this.toast.success("User created successfully");
-        this.$emit("userCreated");
+        const req = {
+          _id: this.newUser._id,
+          username: this.newUser.username,
+          email: this.newUser.email,
+          phone_number: this.newUser.phone_number,
+        };
+        const res = await this.EDIT_USER(req);
+        this.toast.success("User successfully edited!");
+        this.$emit("userEdited");
         this.$emit("close");
       } catch (err) {
         console.log(err);

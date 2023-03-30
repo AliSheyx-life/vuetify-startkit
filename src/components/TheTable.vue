@@ -46,5 +46,9 @@ export default {
       font-size: 15px;
     }
   }
+
+  .vue3-easy-data-table__header th.sortable .sortType-icon {
+    border-bottom-color: #fff;
+  }
 }
 </style>

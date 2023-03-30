@@ -22,8 +22,8 @@
         <!--  -->
         <template #item-phone_number="user">
           <div class="text-center">
-            <a :href="'tel:' + user.phone_number" class="text-brand
-                  ">{{ user.phone_number }}
+            <a :href="'tel:' + user.phone_number" class="text-brand"
+              >{{ user.phone_number }}
             </a>
           </div>
         </template>
@@ -31,8 +31,8 @@
         <!--  -->
         <template #item-email="user">
           <div class="text-center">
-            <a :href="'mailto: ' + user.email" class="text-brand
-                  ">{{ user.email }}
+            <a :href="'mailto: ' + user.email" class="text-brand"
+              >{{ user.email }}
             </a>
           </div>
         </template>
@@ -45,24 +45,29 @@
         </template>
 
         <!--  -->
-        <template #item-action>
+        <template #item-action="user">
           <div class="flex justify-center items-center my-2">
-            <v-btn class="bg-blue-600 text-white mr-2">
+            <v-btn class="bg-blue-600 text-white mr-2" @click="editUser = user">
               <i class="fas fa-edit"></i>
             </v-btn>
-            <v-btn class="bg-red-600 text-white">
+
+            <v-btn class="bg-red-600 text-white" @click="deleteUser(user._id)">
               <i class="fas fa-trash"></i>
             </v-btn>
           </div>
         </template>
-
       </TheTable>
     </v-card>
-    
+
     <Popup :open="createUser" @close="createUser = false">
-      <CreateUser 
-        @close="createUser = false"
-        @userCreated="fetchAllUsers"
+      <CreateUser @close="createUser = false" @userCreated="fetchAllUsers" />
+    </Popup>
+
+    <Popup :open="editUser" @close="editUser = null">
+      <EditUser
+        :userInfo="editUser"
+        @close="editUser = null"
+        @userEdited="fetchAllUsers"
       />
     </Popup>
   </v-container>
@@ -71,18 +76,23 @@
 <script>
 import TheTable from "@/components/TheTable.vue";
 import { mapActions, mapGetters } from "vuex";
-import Popup from '@/components/Popup.vue';
-import CreateUser from "../components/CreateUser.vue"
+import Popup from "@/components/Popup.vue";
+import CreateUser from "../components/CreateUser.vue";
+import EditUser from "../components/EditUser.vue";
+import { useToast } from "vue-toastification";
 
 export default {
-  components: { TheTable, Popup, CreateUser },
+  components: { TheTable, Popup, CreateUser, EditUser },
   data() {
     return {
+      toast: useToast(),
       createUser: false,
+      editUser: null,
       headers: [
         {
           text: "Username",
           value: "username",
+          sortable: true,
         },
         {
           text: "Phone number",
@@ -95,25 +105,39 @@ export default {
         {
           text: "Created at",
           value: "created_at",
+          sortable: true,
         },
         {
           text: "Action",
           value: "action",
-        }
+        },
       ],
     };
   },
   computed: {
-    ...mapGetters('users', ['GET_USERS_LIST'])
+    ...mapGetters("users", ["GET_USERS_LIST"]),
   },
   methods: {
-    ...mapActions('users', ['FETCH_ALL_USERS']),
+    ...mapActions("users", ["FETCH_ALL_USERS", "DELETE_USER"]),
     async fetchAllUsers() {
       await this.FETCH_ALL_USERS();
-    }
+    },
+    async deleteUser(id) {
+      const confirmData = confirm("Are you sure?");
+      if (!confirmData) return;
+      if (id) {
+        try {
+          await this.DELETE_USER(id);
+          this.toast.success("User has been deleted!");
+          await this.fetchAllUsers();
+        } catch (err) {
+          this.toast.danger("Somthing went wrong!");
+        }
+      }
+    },
   },
   mounted() {
-    this.fetchAllUsers()
-  }
+    this.fetchAllUsers();
+  },
 };
 </script>

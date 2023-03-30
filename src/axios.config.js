@@ -3,7 +3,8 @@ import * as utils from "@/utils/localStorage";
 import { refreshToken } from "./api/auth";
 import { setToLocaleStorage } from "./utils/localStorage";
 
-const baseUrl = "http://localhost:3001/api/v1/";
+// const baseUrl = "http://localhost:3001/api/v1/";
+const baseUrl = "http://192.168.100.6:3001/api/v1/";
 
 const http = axios.create({
   baseURL: baseUrl,
