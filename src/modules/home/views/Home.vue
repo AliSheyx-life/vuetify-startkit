@@ -51,7 +51,10 @@
               <i class="fas fa-edit"></i>
             </v-btn>
 
-            <v-btn class="bg-red-600 text-white" @click="deleteUser(user._id)">
+            <v-btn
+              class="bg-red-600 text-white"
+              @click="deleteUserDialog = user._id"
+            >
               <i class="fas fa-trash"></i>
             </v-btn>
           </div>
@@ -70,6 +73,25 @@
         @userEdited="fetchAllUsers"
       />
     </Popup>
+
+    <Dialog v-model="deleteUserDialog">
+      <div class="p-5">
+        <h2 class="text-xl font-semibold text-center mb-3">Are you sure?</h2>
+
+        <div class="">
+          <v-btn
+            class="bg-red-500 text-white mr-3"
+            @click="deleteUserDialog = null"
+            >Cancel</v-btn
+          >
+          <v-btn
+            class="bg-blue-500 text-white"
+            @click="deleteUser(deleteUserDialog)"
+            >Delete</v-btn
+          >
+        </div>
+      </div>
+    </Dialog>
   </v-container>
 </template>
 
@@ -80,12 +102,14 @@ import Popup from "@/components/Popup.vue";
 import CreateUser from "../components/CreateUser.vue";
 import EditUser from "../components/EditUser.vue";
 import { useToast } from "vue-toastification";
+import Dialog from "@/components/Dialog.vue";
 
 export default {
-  components: { TheTable, Popup, CreateUser, EditUser },
+  components: { TheTable, Popup, CreateUser, EditUser, Dialog },
   data() {
     return {
       toast: useToast(),
+      deleteUserDialog: null,
       createUser: false,
       editUser: null,
       headers: [
@@ -123,12 +147,11 @@ export default {
       await this.FETCH_ALL_USERS();
     },
     async deleteUser(id) {
-      const confirmData = confirm("Are you sure?");
-      if (!confirmData) return;
       if (id) {
         try {
           await this.DELETE_USER(id);
           this.toast.success("User has been deleted!");
+          this.deleteUserDialog = null;
           await this.fetchAllUsers();
         } catch (err) {
           this.toast.danger("Somthing went wrong!");

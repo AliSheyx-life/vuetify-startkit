@@ -15,3 +15,7 @@ export async function deleteUser(id) {
 export async function editUser(data) {
   return await http.put(`users/${data._id}`, data);
 }
+
+export async function changePassword(data) {
+  return await http.patch("users/password", data);
+}

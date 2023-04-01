@@ -3,6 +3,7 @@ import {
   createUser,
   deleteUser,
   editUser,
+  changePassword,
 } from "../../api/users";
 
 export default {
@@ -30,6 +31,9 @@ export default {
     },
     async EDIT_USER(_, data) {
       return editUser(data);
+    },
+    async CHANGE_PASSWORD(_, data) {
+      return changePassword(data);
     },
   },
   //
