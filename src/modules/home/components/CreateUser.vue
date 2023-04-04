@@ -5,6 +5,20 @@
       <!-- inputs -->
       <v-text-field
         class=""
+        v-model="newUser.first_name"
+        :rules="rules"
+        label="First name"
+      />
+      <!-- inputs -->
+      <v-text-field
+        class=""
+        v-model="newUser.last_name"
+        :rules="rules"
+        label="Last name"
+      />
+      <!-- inputs -->
+      <v-text-field
+        class=""
         v-model="newUser.username"
         :rules="rules"
         label="Username"
@@ -66,6 +80,8 @@ export default {
         phone_number: "",
         password: "",
         confirm_password: "",
+        first_name: "",
+        last_name: "",
       },
       rules: [
         (value) => {
@@ -86,7 +102,9 @@ export default {
         !this.newUser.email ||
         !this.newUser.phone_number ||
         !this.newUser.password ||
-        !this.newUser.confirm_password
+        !this.newUser.confirm_password ||
+        !this.newUser.first_name ||
+        !this.newUser.last_name
       ) {
         return this.toast.error("Fill all fields");
       }

@@ -13,6 +13,24 @@
 
       <TheTable :headers="headers" :items="GET_USERS_LIST">
         <!--  -->
+        <template #item-avatar="user">
+          <div class="flex justify-center">
+            <v-avatar class="bg-brand">
+              <i v-if="!user.photo" class="fas fa-user text-white"></i>
+              <img v-else :src="user.photo" :alt="user.username" />
+            </v-avatar>
+          </div>
+        </template>
+
+        <!--  -->
+        <template #item-name="user">
+          <div class="text-center font-semibold">
+            {{ user.first_name }}
+            {{ user.last_name }}
+          </div>
+        </template>
+
+        <!--  -->
         <template #item-username="user">
           <div class="text-center font-semibold">
             {{ user.username }}
@@ -113,6 +131,21 @@ export default {
       createUser: false,
       editUser: null,
       headers: [
+        {
+          text: "Avatar",
+          value: "avatar",
+          sortable: true,
+        },
+        {
+          text: "Name",
+          value: "name",
+          sortable: true,
+        },
+        {
+          text: "Username",
+          value: "username",
+          sortable: true,
+        },
         {
           text: "Username",
           value: "username",

@@ -5,6 +5,20 @@
       <!-- inputs -->
       <v-text-field
         class=""
+        v-model="newUser.first_name"
+        :rules="rules"
+        label="First name"
+      />
+      <!-- inputs -->
+      <v-text-field
+        class=""
+        v-model="newUser.last_name"
+        :rules="rules"
+        label="Last name"
+      />
+      <!-- inputs -->
+      <v-text-field
+        class=""
         v-model="newUser.username"
         :rules="rules"
         label="Username"
@@ -23,21 +37,6 @@
         :rules="rules"
         label="Phone Number"
       />
-      <!-- inputs -->
-      <!-- <v-text-field
-        class=""
-        v-model="newUser.password"
-        :rules="rules"
-        label="Password"
-      /> -->
-      <!-- inputs -->
-      <!-- <v-text-field
-        class=""
-        v-model="newUser.confirm_password"
-        :rules="rules"
-        label="Confirm password"
-      /> -->
-
       <div class="flex gap-px text-white">
         <v-btn
           type="submit"
@@ -85,8 +84,6 @@ export default {
         !this.newUser.username ||
         !this.newUser.email ||
         !this.newUser.phone_number
-        // !this.newUser.password ||
-        // !this.newUser.confirm_password
       ) {
         return this.toast.error("Fill all fields");
       }
@@ -98,7 +95,8 @@ export default {
           _id: this.newUser._id,
           username: this.newUser.username,
           email: this.newUser.email,
-          phone_number: this.newUser.phone_number,
+          first_name: this.newUser.first_name,
+          last_name: this.newUser.last_name,
         };
         const res = await this.EDIT_USER(req);
         this.toast.success("User successfully edited!");

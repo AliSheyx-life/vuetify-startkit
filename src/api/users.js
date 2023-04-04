@@ -19,3 +19,7 @@ export async function editUser(data) {
 export async function changePassword(data) {
   return await http.patch("users/password", data);
 }
+
+export async function changeProfilePhoto(data) {
+  return await http.patch("users/photo", data);
+}

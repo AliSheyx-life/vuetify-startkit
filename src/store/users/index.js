@@ -4,6 +4,7 @@ import {
   deleteUser,
   editUser,
   changePassword,
+  changeProfilePhoto,
 } from "../../api/users";
 
 export default {
@@ -34,6 +35,9 @@ export default {
     },
     async CHANGE_PASSWORD(_, data) {
       return changePassword(data);
+    },
+    async CHANGE_PROFILE_PHOTO(_, data) {
+      return changeProfilePhoto(data);
     },
   },
   //
