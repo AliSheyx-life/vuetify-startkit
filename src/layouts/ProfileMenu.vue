@@ -92,7 +92,7 @@ export default {
         "https://cdn-media-1.freecodecamp.org/images/0*xkJgg-6HskYrQ3N7.jpeg",
       isCollapsed: false,
       userInfo: {},
-      changePhoto: true,
+      changePhoto: false,
       changePass: false,
       logout: false,
     };

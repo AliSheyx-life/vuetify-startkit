@@ -1,9 +1,10 @@
-import { createStore } from 'vuex'
-import ui from './ui'
-import users from './users'
+import { createStore } from "vuex";
+import ui from "./ui";
+import users from "./users";
+import status from "./status";
 
 const store = createStore({
-  state () {},
+  state() {},
   getters: {},
   mutations: {},
   actions: {},
@@ -11,7 +12,8 @@ const store = createStore({
   modules: {
     ui,
     users,
-  }
-})
+    status,
+  },
+});
 
-export default store
+export default store;

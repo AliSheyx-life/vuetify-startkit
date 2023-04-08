@@ -6,6 +6,7 @@ import { getAccessToken } from "../utils/localStorage";
 // modules
 const login = () => import("../modules/auth/views/Login.vue");
 const register = () => import("../modules/auth/views/Registration.vue");
+const invoises = () => import("../modules/invoises/views/Invoises.vue");
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,6 +28,11 @@ const router = createRouter({
       path: "/register",
       name: "register",
       component: register,
+    },
+    {
+      path: "/invoises",
+      name: "invoises",
+      component: invoises,
     },
 
     // -> 404

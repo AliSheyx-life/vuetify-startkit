@@ -1,4 +1,5 @@
 import http from "../axios.config";
+import { httpForFiles } from "../axios.config";
 
 export async function fetchAllUsers() {
   return await http.get("users");
@@ -21,5 +22,5 @@ export async function changePassword(data) {
 }
 
 export async function changeProfilePhoto(data) {
-  return await http.patch("users/photo", data);
+  return await httpForFiles.patch("users/photo", data);
 }

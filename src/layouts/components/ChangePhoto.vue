@@ -52,18 +52,21 @@ export default {
       const file = await this.$refs.file.files[0];
       const types = ["image/jpeg", "image/png", "image/gif", "image/jpg"];
       if (!types.includes(file.type)) {
-        this.toast.warning("You can choose only image!");
+        this.toast.error("You can choose only image!");
         return;
       }
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = (e) => {
-        this.photo = e.target.result;
-      };
+      const formData = new FormData();
+      await formData.append("photo", this.$refs.file.files[0]);
+      // const fileReader = new FileReader();
+      // fileReader.readAsDataURL(file);
+      // fileReader.onload = (e) => {
+      //   this.photo = e.target.result;
+      // };
+      this.setNewImage(formData.get("photo"));
     },
-    async setNewImage() {
+    async setNewImage(file) {
       try {
-        await this.CHANGE_PROFILE_PHOTO(this.photo);
+        await this.CHANGE_PROFILE_PHOTO(file);
       } catch (err) {
         console.log(err);
         if (err.response.data.message) {

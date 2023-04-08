@@ -9,6 +9,9 @@ const baseUrl = "http://192.168.100.6:3001/api/v1/";
 const http = axios.create({
   baseURL: baseUrl,
 });
+const httpForFiles = axios.create({
+  baseURL: baseUrl,
+});
 
 // Request interceptor for API calls
 http.interceptors.request.use(
@@ -19,6 +22,23 @@ http.interceptors.request.use(
         Authorization: `Bearer ${keys}`,
         Accept: "application/json",
         "Content-Type": "application/json",
+      };
+    }
+    return config;
+  },
+  (error) => {
+    Promise.reject(error);
+  }
+);
+
+httpForFiles.interceptors.request.use(
+  async (config) => {
+    const keys = await utils.getAccessToken();
+    if (keys) {
+      config.headers = {
+        Authorization: `Bearer ${keys}`,
+        Accept: "multipart/form-data",
+        "Content-Type": "multipart/form-data",
       };
     }
     return config;
@@ -52,10 +72,12 @@ http.interceptors.response.use(
     }
     isRefreshing = false;
     if (error.response.status === 401) {
-      useJwt.logout();
+      localStorage.removeItem("access_token");
     }
     return Promise.reject(error);
   }
 );
+
+export { httpForFiles };
 
 export default http;
