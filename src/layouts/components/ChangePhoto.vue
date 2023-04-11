@@ -18,6 +18,7 @@
       <label for="user-image" class="text-sm cursor-pointer" v-else>
         <button
           class="py-2 px-5 rounded-md bg-dark text-white pointer-events-none"
+          @click="setNewImage()"
         >
           Choose Image
         </button>
@@ -57,16 +58,12 @@ export default {
       }
       const formData = new FormData();
       await formData.append("photo", this.$refs.file.files[0]);
-      // const fileReader = new FileReader();
-      // fileReader.readAsDataURL(file);
-      // fileReader.onload = (e) => {
-      //   this.photo = e.target.result;
-      // };
-      this.setNewImage(formData.get("photo"));
+      this.photo = formData;
+      // this.setNewImage(formData);
     },
-    async setNewImage(file) {
+    async setNewImage() {
       try {
-        await this.CHANGE_PROFILE_PHOTO(file);
+        await this.CHANGE_PROFILE_PHOTO(this.photo);
       } catch (err) {
         console.log(err);
         if (err.response.data.message) {

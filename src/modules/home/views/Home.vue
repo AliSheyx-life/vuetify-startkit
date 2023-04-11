@@ -17,7 +17,7 @@
           <div class="flex justify-center">
             <v-avatar class="bg-brand">
               <i v-if="!user.photo" class="fas fa-user text-white"></i>
-              <img v-else :src="user.photo" :alt="user.username" />
+              <img v-else :src="mediaUrl + user.photo" :alt="user.username" />
             </v-avatar>
           </div>
         </template>
@@ -121,12 +121,14 @@ import CreateUser from "../components/CreateUser.vue";
 import EditUser from "../components/EditUser.vue";
 import { useToast } from "vue-toastification";
 import Dialog from "@/components/Dialog.vue";
+import { mediaUrl } from "@/axios.config";
 
 export default {
   components: { TheTable, Popup, CreateUser, EditUser, Dialog },
   data() {
     return {
       toast: useToast(),
+      mediaUrl: mediaUrl,
       deleteUserDialog: null,
       createUser: false,
       editUser: null,

@@ -5,6 +5,7 @@ import { setToLocaleStorage } from "./utils/localStorage";
 
 // const baseUrl = "http://localhost:3001/api/v1/";
 const baseUrl = "http://192.168.100.6:3001/api/v1/";
+const mediaUrl = "http://192.168.100.6:3001/";
 
 const http = axios.create({
   baseURL: baseUrl,
@@ -20,25 +21,6 @@ http.interceptors.request.use(
     if (keys) {
       config.headers = {
         Authorization: `Bearer ${keys}`,
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      };
-    }
-    return config;
-  },
-  (error) => {
-    Promise.reject(error);
-  }
-);
-
-httpForFiles.interceptors.request.use(
-  async (config) => {
-    const keys = await utils.getAccessToken();
-    if (keys) {
-      config.headers = {
-        Authorization: `Bearer ${keys}`,
-        Accept: "multipart/form-data",
-        "Content-Type": "multipart/form-data",
       };
     }
     return config;
@@ -78,6 +60,5 @@ http.interceptors.response.use(
   }
 );
 
-export { httpForFiles };
-
+export { mediaUrl };
 export default http;
