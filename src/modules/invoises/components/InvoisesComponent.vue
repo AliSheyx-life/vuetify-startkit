@@ -4,7 +4,7 @@
       <!-- head -->
       <div class="flex justify-between items-center mb-3">
         <h2 class="text-2xl font-semibold text-gray-700">Invoises</h2>
-        <v-btn class="bg-brand text-white">
+        <v-btn class="bg-brand text-white" @click="createPopup = true">
           <i class="fas fa-plus"></i>
           <span class="ml-2">Add new</span>
         </v-btn>
@@ -15,16 +15,22 @@
         <TheTable :headers="headers" :items="items" />
       </div>
     </v-card>
+    <Popup :open="createPopup" @close="createPopup = false">
+      <CreateInvoice @close="createPopup = false" />
+    </Popup>
   </v-col>
 </template>
 
 <script>
 import TheTable from "@/components/TheTable.vue";
+import Popup from "@/components/Popup.vue";
+import CreateInvoice from "./CreateInvoice.vue";
 
 export default {
-  components: { TheTable },
+  components: { TheTable, Popup, CreateInvoice },
   data() {
     return {
+      createPopup: true,
       headers: [
         { text: "ID", value: "id" },
         { text: "Created at", value: "created_at" },
