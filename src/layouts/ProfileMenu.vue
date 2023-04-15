@@ -99,6 +99,7 @@ export default {
   },
   computed: {
     ...mapGetters("ui", ["IS_COLLAPSED"]),
+    ...mapGetters("user", ["GET_USER_INFO"]),
   },
   methods: {
     ...mapActions("ui", ["TOGGLE_SIDEBAR"]),

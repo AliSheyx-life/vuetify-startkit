@@ -108,8 +108,8 @@
         <v-btn class="text-white bg-gray-500 w-1/2" @click="$emit('close')"
           >Cancel</v-btn
         >
-        <v-btn class="text-white bg-brand w-1/2" @click="createInvoice"
-          >Create</v-btn
+        <v-btn class="text-white bg-blue w-1/2" @click="createInvoice"
+          >Edit</v-btn
         >
       </div>
     </v-form>
@@ -121,31 +121,16 @@ import { useToast } from "vue-toastification";
 import { mapGetters, mapActions } from "vuex";
 
 export default {
+  props: {
+    editInvoiceData: {
+      type: Object,
+      require: true,
+    },
+  },
   data() {
     return {
       toast: useToast(),
-      newInvoice: {
-        name: null,
-        billTo: null,
-        email: null,
-        invoiceDate: null,
-        paymentDate: new Date(),
-        items: [
-          {
-            name: null,
-            qtty: 1,
-            price: 0,
-            total: 0,
-          },
-        ],
-        status: null,
-        total: 0,
-        address: {
-          country: null,
-          city: null,
-          street: null,
-        },
-      },
+      newInvoice: this.editInvoiceData.data,
     };
   },
   computed: {
@@ -177,7 +162,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions("invoice", ["CREATE_INVOICE"]),
+    ...mapActions("invoice", ["EDIT_INVOICE"]),
     formatDate(date) {
       return new Date(date).toLocaleDateString();
     },
@@ -194,21 +179,26 @@ export default {
     },
     async createInvoice() {
       if (!this.checkFills) return;
-      this.newInvoice.invoiceDate = new Date();
-      this.newInvoice.total = this.getTotalPrice;
-      const newStatus = this.GET_STATUSES.find(
-        (status) => status?.title?.name === "new"
-      );
-      this.newInvoice.status = newStatus;
+      //   this.newInvoice.invoiceDate = new Date();
+      //   this.newInvoice.total = this.getTotalPrice;
+      //   const newStatus = this.GET_STATUSES.find(
+      //     (status) => status?.title?.name === "new"
+      //   );
+      //   this.newInvoice.status = newStatus;
       try {
-        await this.CREATE_INVOICE({
-          data: this.newInvoice,
-          status: newStatus._id,
-        });
-        this.toast.success("Invoce successfully created!");
+        console.log(this.editInvoiceData._id);
+        await this.EDIT_INVOICE(
+          {
+            data: this.newInvoice,
+            status: this.newInvoice.status._id,
+            id: this.editInvoiceData._id
+          },
+        );
+        this.toast.success("Invoce successfully edited!");
         this.$emit("close");
-        this.$emit("created");
+        this.$emit("edited");
       } catch (err) {
+        console.log(err);
         this.toast.error("Somthing went wrong!");
       }
     },

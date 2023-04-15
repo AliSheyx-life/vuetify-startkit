@@ -4,8 +4,9 @@ import { refreshToken } from "./api/auth";
 import { setToLocaleStorage } from "./utils/localStorage";
 
 // const baseUrl = "http://localhost:3001/api/v1/";
+// const mediaUrl = "http://localhost/";
 const baseUrl = "http://192.168.100.6:3001/api/v1/";
-const mediaUrl = "http://192.168.100.6:3001/";
+const mediaUrl = "http://192.168.100.6/";
 
 const http = axios.create({
   baseURL: baseUrl,

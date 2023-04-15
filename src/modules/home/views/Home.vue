@@ -17,7 +17,12 @@
           <div class="flex justify-center">
             <v-avatar class="bg-brand">
               <i v-if="!user.photo" class="fas fa-user text-white"></i>
-              <img v-else :src="mediaUrl + user.photo" :alt="user.username" />
+              <img
+                v-else
+                :src="mediaUrl + user.photo"
+                :alt="user.username"
+                class="w-full h-full object-cover"
+              />
             </v-avatar>
           </div>
         </template>

@@ -2,6 +2,7 @@ import { createStore } from "vuex";
 import ui from "./ui";
 import users from "./users";
 import status from "./status";
+import invoice from "./invoice";
 
 const store = createStore({
   state() {},
@@ -13,6 +14,7 @@ const store = createStore({
     ui,
     users,
     status,
+    invoice,
   },
 });
 
